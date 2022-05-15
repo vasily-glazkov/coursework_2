@@ -17,7 +17,7 @@ def index():
 def post_page(uid):
     comments_ = get_comments_by_post_id(uid, comments)
     post = get_post_by_pk(uid, data)
-    return render_template('post.html', comments=comments_, post=post)
+    return render_template('post.html', comments=comments_, item=post)
 
 
 @app.route("/users/<username>/")
@@ -41,12 +41,14 @@ def search_page():
     return render_template("search.html", query_not_found=query_not_found)
 
 
-@app.route("/api/posts")
+@app.route("/api/posts/")
 def index_test():
-    return json.dumps(data, ensure_ascii=False)
+    data = load_data(POSTS_DATA)
+    return jsonify(data)
 
 
 @app.route("/api/posts/<int:uid>")
 def post_page_test(uid):
     post = get_post_by_pk(uid, data)
-    return json.dumps(post, ensure_ascii=False)
+    return jsonify(post)
+
